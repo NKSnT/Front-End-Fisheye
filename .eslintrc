@@ -1,0 +1,26 @@
+{
+    "rules": {
+        "semi": "warn",
+        "no-console": "warn", //warning for all console
+        "prettier/prettier": [
+            //make so the end of line ; are accepted with CRLF config
+            "error",
+            {
+                "endOfLine": "auto"
+            }
+        ]
+    },
+    "env": {
+        //make so global constante like console are accepted and do not cause error
+        "browser": true,
+        "node": true
+    },
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "extends": ["eslint:recommended", "plugin:prettier/recommended"]
+}
