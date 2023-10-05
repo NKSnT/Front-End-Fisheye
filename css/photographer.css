@@ -9,10 +9,21 @@
 }
 .photograph-header article {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    padding: 0 40px 0 40px;
+}
+.photograph-header article > div {
+    max-width: 33%;
+}
+
+.photograph-header article h2 {
+    color: #d3573c;
+    font-size: 64px;
+    margin: 0;
+    line-height: 0.8;
 }
 
 .contact_button {
@@ -26,11 +37,37 @@
     background-color: #901c1c;
     border-radius: 5px;
     cursor: pointer;
-    /*
-    position: absolute;
-    top: calc(150px + 50px);
-    left: 50%;
-    */
+}
+.location_24px {
+    color: #901c1c;
+    font-size: 24px;
+}
+.tagline {
+    font-size: 18px;
+}
+.insert {
+    background-color: #db8876;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 375px;
+}
+.insert div {
+    display: flex;
+    flex-direction: row;
+}
+.insert p {
+    font-size: 24px;
+}
+#contact_modal {
+    position: fixed;
+    top: 0%;
+    width: 100%;
+    background-color: rgb(192 192 192 / 0.5);
 }
 
 .modal {
@@ -58,6 +95,91 @@
     font-size: 64px;
     font-weight: normal;
     text-align: center;
+}
+.modal #messageInput {
+    height: 200px;
+}
+#lightBox-wrapper {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(192 192 192 / 0.5);
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#lightBox {
+    width: 700px;
+    height: 700px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#lightBoxFocusIMG {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+}
+#lightBoxCloseBtn {
+    position: absolute;
+    top: 0%;
+    cursor: pointer;
+}
+#lightBoxArrowLeft {
+    position: absolute;
+    left: -96px;
+    top: calc(50% - 48px);
+    cursor: pointer;
+}
+#lightBoxArrowRight {
+    position: absolute;
+    right: -96px;
+    top: calc(50% - 48px);
+    cursor: pointer;
+}
+
+#mediaSection {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+
+    margin: 75px 50px 0 75px;
+}
+.mediaCard {
+    cursor: pointer;
+    margin-bottom: 25px;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.mediaCard_Media {
+    object-fit: cover;
+    width: 350px;
+    height: 350px;
+    border-radius: 10px;
+}
+
+.mediaCard_Info,
+.mediaCard_Info div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.mediaCard h3 {
+    color: #901c1c;
+    font-size: 24px;
+    margin-right: 20px;
+}
+.mediaCard p {
+    font-size: 24px;
 }
 
 form {

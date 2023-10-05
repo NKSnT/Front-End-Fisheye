@@ -12,7 +12,9 @@
     </head>
     <body>
         <header>
-            <img src="assets/images/logo.png" class="logo" />
+            <a href="index.html" aria-label="Fishey Home page"
+                ><img src="assets/images/logo.png" class="logo"
+            /></a>
         </header>
         <main id="main">
             <div class="photograph-header">
@@ -25,16 +27,30 @@
                     <h2>Contactez-moi</h2>
                     <img src="assets/icons/close.svg" onclick="closeModal()" />
                 </header>
-                <form>
+                <form id="form">
                     <div>
-                        <label>Prénom</label>
-                        <input />
+                        <label for="firstNameInput">Prénom</label>
+                        <input id="firstNameInput" type="text" />
                     </div>
-                    <button class="contact_button">Envoyer</button>
+                    <div>
+                        <label for="lastNameInput"> Nom </label>
+                        <input id="lastNameInput" type="text" />
+                    </div>
+                    <div>
+                        <label for="emailInput"> Email </label>
+                        <input id="emailInput" type="text" />
+                    </div>
+                    <div>
+                        <label for="messageInput"> Votre message </label>
+                        <input id="messageInput" type="text" />
+                    </div>
+                    <input class="contact_button" type="submit" value="Envoyer" />
                 </form>
             </div>
         </div>
+        <script src="./scripts/utils/contactForm.js"></script>
         <script src="./scripts/templates/photographer.js"></script>
+        <script src="./scripts/templates/media.js"></script>
         <script src="./scripts/pages/photographer.js"></script>
         <script src="./scripts/utils/contactForm.js"></script>
     </body>

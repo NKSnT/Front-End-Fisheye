@@ -17,11 +17,6 @@ async function displayData(photographers) {
     photographers.forEach((photographer) => {
         const photographerModel = photographerTemplate(photographer);
         const userCardDOM = photographerModel.getUserCardDOM();
-        const detail = document.createElement('a');
-        detail.setAttribute('href', './photographer.html?id=' + photographer.id);
-        detail.appendChild(userCardDOM.firstChild);
-        detail.appendChild(userCardDOM.firstChild);
-        userCardDOM.insertBefore(detail, userCardDOM.firstChild);
         photographersSection.appendChild(userCardDOM);
     });
 }
