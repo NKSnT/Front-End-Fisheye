@@ -57,10 +57,14 @@ a {
     color: #d3573c;
     font-size: 36px;
 }
-
-.photographer_section article a img {
+.imgContainer {
+    border-radius: 50%;
+    overflow: hidden;
+}
+.imgContainer img {
     height: 200px;
     width: 200px;
+    object-fit: cover;
 }
 .photographer_section article p {
     margin: 0;
