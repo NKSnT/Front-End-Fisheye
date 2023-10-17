@@ -15,6 +15,7 @@
     height: 100%;
     padding: 0 40px 0 40px;
 }
+
 .photograph-header article > div {
     max-width: 33%;
 }
@@ -66,19 +67,24 @@
     position: fixed;
     top: 0%;
     width: 100%;
+    height: 100%;
     background-color: rgb(192 192 192 / 0.5);
 }
 
 .modal {
     border-radius: 5px;
     background-color: #db8876;
-    width: 50%;
+    width: 670px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     padding: 35px;
     margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .modal header {
@@ -176,6 +182,10 @@
     width: 350px;
     height: 350px;
     border-radius: 10px;
+}
+.mediaCard_Media:focus,
+.mediaCard_Media:hover {
+    outline: 4px solid rgb(0, 153, 255);
 }
 .mediaCard_Media,
 .mediacard_ico,

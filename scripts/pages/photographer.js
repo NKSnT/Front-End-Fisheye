@@ -24,7 +24,6 @@ function getPhotographersMedias(medias) {
             return b.likes - a.likes;
         }
         mediaList.sort(sortByPopularity);
-        //data.reverse(); is décending
     } else if (sortby == '2') {
         function sortByDate(a, b) {
             var date1 = new Date(a.data);
@@ -45,12 +44,9 @@ function getPhotographersMedias(medias) {
 async function displayData(photographers, mediasList) {
     const photographersHeader = document.querySelector('.photograph-header');
     const main = document.getElementById('main');
-    //const main = document.querySelector('#main');
     photographers.forEach((photographer) => {
         if (photographer.id == photographerId) {
             let ref = photographer.name.split(' ')[0]; //split the name to find the corect folder
-
-            //const mediasList = getPhotographersMedias(ref);
 
             const photographerModel = photographerTemplate(photographer, mediasList);
             const userCardDOM = photographerModel.getPhotographerCardDom();
@@ -58,10 +54,6 @@ async function displayData(photographers, mediasList) {
             photographersHeader.appendChild(userCardDOM.article);
             main.appendChild(userCardDOM.insert);
             main.appendChild(lightBox);
-
-            // const photographerMedia = mediaFactory(mediasList, ref); //mediaFactoryTemplate()
-            // const mediaCardDOM = photographerMedia.creatMediaDOM();
-            // main.appendChild(mediaCardDOM);
         }
     });
 }
@@ -69,27 +61,17 @@ async function displayMedia(mediaList, photographers) {
     const main = document.getElementById('main');
     const section = document.createElement('section');
     section.id = 'mediaSection';
-
-    const lightBox = document.getElementById('lightBox');
-
     photographers.forEach((photographer) => {
         if (photographer.id == photographerId) {
             const photographerName = photographer.name.split(' ')[0];
             const sortOrderDom = sortOrder();
-
             main.appendChild(sortOrderDom);
             main.appendChild(section);
-            //let mediaList = new Array();
 
             mediaList.forEach((media, index) => {
-                //console.log(media);
                 const mediaModel = mediaBis(media, index, photographerName);
                 const mediaCardDOM = mediaModel.createMediaBis();
-
-                //console.log(mediaCardDOM);
                 section.appendChild(mediaCardDOM);
-
-                //mediaList.push(media);
             });
         }
     });
@@ -104,3 +86,18 @@ async function init() {
     displayMedia(mediasList, photographers);
 }
 init();
+
+/*
+ * To do
+ *
+ * ACCESS : all element keyboard clickable
+ * => select
+ *
+ *
+ * aria hidden parametre ?
+ *
+ * maybe give some element aria label
+ *
+ *
+ *
+ */

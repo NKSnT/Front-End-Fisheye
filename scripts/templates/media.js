@@ -21,10 +21,10 @@ function mediaBis(data, index, photographerName) {
         likesNumber.textContent = likes;
         const likeIcone = document.createElement('img');
         likeIcone.setAttribute('src', './assets/icons/favorite_brown.svg');
+        likeIcone.setAttribute('alt', 'like');
         likeIcone.className = 'mediacard_ico';
         likesContainer.appendChild(likesNumber);
         likesContainer.appendChild(likeIcone);
-
         // display the lightbox on card's img and title click if isn't already on display,
         // otherwise, do nothing
         function displayLightBox() {
@@ -36,6 +36,7 @@ function mediaBis(data, index, photographerName) {
                         'src',
                         `./assets/photographers/Sample Photos/${ref}/${image}`
                     );
+                    lightBoxImage.setAttribute('alt', title);
                     lightBox.parentElement.style.display = 'block';
                     localStorage.setItem('imgIndex', mediaIndex);
                 } else if (article.firstChild.tagName == 'VIDEO') {
@@ -43,8 +44,10 @@ function mediaBis(data, index, photographerName) {
                     lightBoxVideo.style.display = 'block';
                     lightBoxVideo.setAttribute(
                         'src',
-                        `./assets/photographers/Sample Photos/${ref}/${video}` + '#t=0.1'
+                        `./assets/photographers/Sample Photos/${ref}/${video}`
                     );
+                    lightBoxVideo.setAttribute('controls', '');
+                    lightBoxVideo.setAttribute('alt', title);
                     lightBox.parentElement.style.display = 'block';
                     localStorage.setItem('imgIndex', mediaIndex);
                 } else {
@@ -76,6 +79,7 @@ function mediaBis(data, index, photographerName) {
             const img = document.createElement('img');
             img.setAttribute('src', `./assets/photographers/Sample Photos/${ref}/${image}`);
             img.setAttribute('alt', title);
+            img.setAttribute('tabindex', '0');
             img.className = 'mediaCard_Media';
             article.appendChild(img);
             article.appendChild(fileInfoContainer);
@@ -88,6 +92,7 @@ function mediaBis(data, index, photographerName) {
             );
             vid.setAttribute('alt', title);
             vid.setAttribute('preload', 'metadata');
+            vid.setAttribute('tabindex', '0');
             vid.className = 'mediaCard_Media';
             article.appendChild(vid);
             article.appendChild(fileInfoContainer);

@@ -8,7 +8,7 @@ function photographerTemplate(data, mediasList) {
 
     function getUserCardDOM() {
         const detail = document.createElement('a');
-        detail.setAttribute('href', './photographer.html?id=' + id);
+        detail.setAttribute('href', `./photographer.html?id=${id}&sortby=${0}`);
         detail.setAttribute('aria-label', name);
         const article = document.createElement('article');
         const imgContainer = document.createElement('div');
@@ -18,7 +18,6 @@ function photographerTemplate(data, mediasList) {
             'src',
             `assets/photographers/Sample Photos/Photographers ID Photos/${portrait}`
         );
-        //img.setAttribute('alt', 'photo de ' + name); il veullent un alt vide ?
         imgContainer.appendChild(img);
         const h2 = document.createElement('h2');
         h2.textContent = name;
@@ -44,6 +43,7 @@ function photographerTemplate(data, mediasList) {
     function getPhotographerCardDom() {
         const btn = document.querySelector('.contact_button');
         const article = document.createElement('article');
+        article.setAttribute('aria-label', "photographer's informations");
         const profilInfo = document.createElement('div');
         const insert = document.createElement('div');
         insert.className = 'insert';
@@ -82,8 +82,6 @@ function photographerTemplate(data, mediasList) {
         article.appendChild(profilInfo);
         article.appendChild(btn);
         article.appendChild(imgContainer);
-        //article.appendChild(insert);
-
         return { article, insert };
     }
 
@@ -93,6 +91,7 @@ function photographerTemplate(data, mediasList) {
         wrapper.style.display = 'none';
         const lightBox = document.createElement('div');
         lightBox.setAttribute('id', 'lightBox');
+        lightBox.setAttribute('aria-label', 'image closeup view');
         lightBox.className = 'lightBox';
         const mediaContainer = document.createElement('div');
         mediaContainer.setAttribute('id', 'lightBox_media-container');
@@ -103,16 +102,22 @@ function photographerTemplate(data, mediasList) {
         lightBoxVideo.setAttribute('class', 'lightBoxFocus');
         lightBoxVideo.setAttribute('id', 'lightBoxVideo');
 
+        //const closeBtn_Btn = document.createElement('btn');
+
         const closeBtn = document.createElement('img');
         closeBtn.setAttribute('src', './assets/icons/close_brown.svg');
         closeBtn.setAttribute('id', 'lightBoxCloseBtn');
+        closeBtn.setAttribute('aria-label', 'Close dialog');
+        closeBtn.setAttribute('tabindex', '0');
         closeBtn.addEventListener('click', (event) => {
             wrapper.style.display = 'none';
         });
         const arrowLeft = document.createElement('img');
         arrowLeft.setAttribute('src', './assets/icons/arrow_left.svg');
         arrowLeft.setAttribute('id', 'lightBoxArrowLeft');
-        arrowLeft.addEventListener('click', (event) => {
+        arrowLeft.setAttribute('aria-label', 'Previous image');
+        arrowLeft.setAttribute('tabindex', '0');
+        arrowLeft.addEventListener('click', () => {
             var findex = localStorage.getItem('imgIndex');
             var nextMedia;
             var newfindex;
@@ -128,6 +133,7 @@ function photographerTemplate(data, mediasList) {
                     'src',
                     `./assets/photographers/Sample Photos/${ref}/${nextMedia}`
                 );
+                lightBoxImage.setAttribute('alt', `${fList[newfindex].title}`);
                 lightBoxImage.style.display = 'block';
             } else if (fList[newfindex].hasOwnProperty('video')) {
                 lightBoxImage.style.display = 'none';
@@ -136,6 +142,7 @@ function photographerTemplate(data, mediasList) {
                     'src',
                     `./assets/photographers/Sample Photos/${ref}/${nextMedia}#t=0.1`
                 );
+                lightBoxVideo.setAttribute('alt', `${fList[newfindex].title}`);
                 lightBoxVideo.style.display = 'block';
             }
             localStorage.setItem('imgIndex', newfindex);
@@ -143,7 +150,9 @@ function photographerTemplate(data, mediasList) {
         const arrowRight = document.createElement('img');
         arrowRight.setAttribute('src', './assets/icons/arrow_right.svg');
         arrowRight.setAttribute('id', 'lightBoxArrowRight');
-        arrowRight.addEventListener('click', (event) => {
+        arrowRight.setAttribute('aria-label', 'Next image');
+        arrowRight.setAttribute('tabindex', '0');
+        arrowRight.addEventListener('click', () => {
             var findex = localStorage.getItem('imgIndex');
             var nextMedia;
             var newfindex;
@@ -159,14 +168,18 @@ function photographerTemplate(data, mediasList) {
                     'src',
                     `./assets/photographers/Sample Photos/${ref}/${nextMedia}`
                 );
+                lightBoxImage.setAttribute('alt', `${fList[newfindex].title}`);
                 lightBoxImage.style.display = 'block';
             } else if (fList[newfindex].hasOwnProperty('video')) {
                 lightBoxImage.style.display = 'none';
                 nextMedia = fList[newfindex].video;
                 lightBoxVideo.setAttribute(
                     'src',
-                    `./assets/photographers/Sample Photos/${ref}/${nextMedia}#t=0.1`
+                    //`./assets/photographers/Sample Photos/${ref}/${nextMedia}#t=0.1`
+                    `./assets/photographers/Sample Photos/${ref}/${nextMedia}`
                 );
+                lightBoxVideo.setAttribute('controls', '');
+                lightBoxVideo.setAttribute('alt', `${fList[newfindex].title}`);
                 lightBoxVideo.style.display = 'block';
             }
             localStorage.setItem('imgIndex', newfindex);
@@ -174,17 +187,11 @@ function photographerTemplate(data, mediasList) {
         mediaContainer.appendChild(lightBoxImage);
         mediaContainer.appendChild(lightBoxVideo);
         lightBox.appendChild(mediaContainer);
-        // lightBox.appendChild(lightBoxImage);
-        // lightBox.appendChild(lightBoxVideo);
         lightBox.appendChild(closeBtn);
         lightBox.appendChild(arrowLeft);
         lightBox.appendChild(arrowRight);
         wrapper.appendChild(lightBox);
-
-        /// il faut que je passe les nom de fichier en data, comme sa ici et dans la media je lais ai
         return wrapper;
     }
     return { getUserCardDOM, getPhotographerCardDom, lightBox };
-
-    // générer aussi la light box ici et la metre en cdisplay none puis l'afficher quadn bien voulut ensuite
 }

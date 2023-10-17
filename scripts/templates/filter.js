@@ -8,7 +8,7 @@ function sortOrder() {
     customSelect.classList = 'custom-select';
 
     sortSelect_Container.id = 'SortContainer';
-    var values = ['', 'Popularité', 'Date', 'Titre'];
+    var values = ['Date', 'Popularité', 'Titre'];
 
     var select = document.createElement('select');
     select.name = 'sortSelect';
@@ -25,7 +25,6 @@ function sortOrder() {
         select.selectedIndex = sortby;
     }
     select.addEventListener('change', reloadWithSortOrder);
-
     var label = document.createElement('label');
     label.innerHTML = 'Trier par';
     label.htmlFor = 'sortSelect';
