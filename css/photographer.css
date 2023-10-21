@@ -241,6 +241,10 @@ form input {
     border: none;
     border-radius: 5px;
 }
+#closeContactModal {
+    border: none;
+    background: none;
+}
 
 /*the container must be positioned relative:*/
 .custom-select {
@@ -254,8 +258,15 @@ form input {
     margin-left: 50px;
 }
 
-.custom-select select {
-    display: none; /*hide original SELECT element:*/
+.custom-select select:not(:focus):not(:active) {
+    /* display: none; hide original SELECT element, not good with acces */
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
 }
 
 .select-selected {

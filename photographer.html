@@ -23,11 +23,17 @@
                 </button>
             </div>
         </main>
-        <div id="contact_modal">
+        <div id="contact_modal" role="dialog">
             <div class="modal">
                 <header>
                     <h2>Contactez-moi</h2>
-                    <img src="assets/icons/close.svg" onclick="closeModal()" />
+                    <button
+                        onclick="closeModal()"
+                        id="closeContactModal"
+                        aria-describedby="contact modal"
+                    >
+                        <img src="assets/icons/close.svg" />
+                    </button>
                 </header>
                 <form id="form">
                     <div>
@@ -46,14 +52,19 @@
                         <label for="messageInput"> Votre message </label>
                         <input id="messageInput" type="text" />
                     </div>
-                    <input class="contact_button" type="submit" value="Envoyer" />
+                    <input
+                        class="contact_button"
+                        type="submit"
+                        value="Envoyer"
+                        id="submitContactModal"
+                    />
                 </form>
             </div>
         </div>
+        <div id="lightbox-modal"></div>
         <script src="./scripts/utils/contactForm.js"></script>
         <script src="./scripts/templates/photographer.js"></script>
         <script src="./scripts/templates/filter.js"></script>
-
         <script src="./scripts/templates/media.js"></script>
         <script src="./scripts/pages/photographer.js"></script>
         <script src="./scripts/utils/contactForm.js"></script>

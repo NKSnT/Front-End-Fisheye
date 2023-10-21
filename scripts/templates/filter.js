@@ -24,7 +24,14 @@ function sortOrder() {
     if (sortby) {
         select.selectedIndex = sortby;
     }
+    select.addEventListener('focus', (event) => {
+        document.querySelector('.select-selected').style.display = 'none';
+    });
+    select.addEventListener('focusout', (event) => {
+        document.querySelector('.select-selected').style.display = 'flex';
+    });
     select.addEventListener('change', reloadWithSortOrder);
+
     var label = document.createElement('label');
     label.innerHTML = 'Trier par';
     label.htmlFor = 'sortSelect';

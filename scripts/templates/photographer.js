@@ -102,22 +102,45 @@ function photographerTemplate(data, mediasList) {
         lightBoxVideo.setAttribute('class', 'lightBoxFocus');
         lightBoxVideo.setAttribute('id', 'lightBoxVideo');
 
-        //const closeBtn_Btn = document.createElement('btn');
-
         const closeBtn = document.createElement('img');
         closeBtn.setAttribute('src', './assets/icons/close_brown.svg');
         closeBtn.setAttribute('id', 'lightBoxCloseBtn');
         closeBtn.setAttribute('aria-label', 'Close dialog');
-        closeBtn.setAttribute('tabindex', '0');
-        closeBtn.addEventListener('click', (event) => {
-            wrapper.style.display = 'none';
-        });
+        // closeBtn.setAttribute('tabindex', '0');
+        closeBtn.addEventListener('click', closeLightBoxEvent);
         const arrowLeft = document.createElement('img');
         arrowLeft.setAttribute('src', './assets/icons/arrow_left.svg');
         arrowLeft.setAttribute('id', 'lightBoxArrowLeft');
         arrowLeft.setAttribute('aria-label', 'Previous image');
-        arrowLeft.setAttribute('tabindex', '0');
-        arrowLeft.addEventListener('click', () => {
+        // arrowLeft.setAttribute('tabindex', '0');
+        arrowLeft.addEventListener('click', arrowleftEvent);
+        document.addEventListener('keydown', (event) => {
+            if (wrapper.style.display == 'block') {
+                if (event.isComposing || event.keyCode === 37) {
+                    arrowleftEvent();
+                } else if (event.isComposing || event.keyCode === 39) {
+                    arrowRightEvent();
+                } else if (event.isComposing || event.keyCode === 27) {
+                    closeLightBoxEvent();
+                }
+            }
+        });
+
+        const arrowRight = document.createElement('img');
+        arrowRight.setAttribute('src', './assets/icons/arrow_right.svg');
+        arrowRight.setAttribute('id', 'lightBoxArrowRight');
+        arrowRight.setAttribute('aria-label', 'Next image');
+        //arrowRight.setAttribute('tabindex', '0');
+        arrowRight.addEventListener('click', arrowRightEvent);
+
+        mediaContainer.appendChild(lightBoxImage);
+        mediaContainer.appendChild(lightBoxVideo);
+        lightBox.appendChild(mediaContainer);
+        lightBox.appendChild(closeBtn);
+        lightBox.appendChild(arrowLeft);
+        lightBox.appendChild(arrowRight);
+        wrapper.appendChild(lightBox);
+        function arrowleftEvent() {
             var findex = localStorage.getItem('imgIndex');
             var nextMedia;
             var newfindex;
@@ -146,13 +169,8 @@ function photographerTemplate(data, mediasList) {
                 lightBoxVideo.style.display = 'block';
             }
             localStorage.setItem('imgIndex', newfindex);
-        });
-        const arrowRight = document.createElement('img');
-        arrowRight.setAttribute('src', './assets/icons/arrow_right.svg');
-        arrowRight.setAttribute('id', 'lightBoxArrowRight');
-        arrowRight.setAttribute('aria-label', 'Next image');
-        arrowRight.setAttribute('tabindex', '0');
-        arrowRight.addEventListener('click', () => {
+        }
+        function arrowRightEvent() {
             var findex = localStorage.getItem('imgIndex');
             var nextMedia;
             var newfindex;
@@ -183,14 +201,15 @@ function photographerTemplate(data, mediasList) {
                 lightBoxVideo.style.display = 'block';
             }
             localStorage.setItem('imgIndex', newfindex);
-        });
-        mediaContainer.appendChild(lightBoxImage);
-        mediaContainer.appendChild(lightBoxVideo);
-        lightBox.appendChild(mediaContainer);
-        lightBox.appendChild(closeBtn);
-        lightBox.appendChild(arrowLeft);
-        lightBox.appendChild(arrowRight);
-        wrapper.appendChild(lightBox);
+        }
+        function closeLightBoxEvent() {
+            wrapper.style.display = 'none';
+            //lightBox.setAttribute('aria-hidden', 'true');
+            document.getElementById('main').setAttribute('aria-hidden', 'false');
+            document.querySelectorAll('.mediaCard_Media').forEach((Element) => {
+                Element.tabIndex = '0';
+            });
+        }
         return wrapper;
     }
     return { getUserCardDOM, getPhotographerCardDom, lightBox };

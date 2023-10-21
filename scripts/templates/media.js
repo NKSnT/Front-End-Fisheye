@@ -37,7 +37,6 @@ function mediaBis(data, index, photographerName) {
                         `./assets/photographers/Sample Photos/${ref}/${image}`
                     );
                     lightBoxImage.setAttribute('alt', title);
-                    lightBox.parentElement.style.display = 'block';
                     localStorage.setItem('imgIndex', mediaIndex);
                 } else if (article.firstChild.tagName == 'VIDEO') {
                     lightBoxImage.style.display = 'none';
@@ -47,11 +46,20 @@ function mediaBis(data, index, photographerName) {
                         `./assets/photographers/Sample Photos/${ref}/${video}`
                     );
                     lightBoxVideo.setAttribute('controls', '');
-                    lightBoxVideo.setAttribute('alt', title);
-                    lightBox.parentElement.style.display = 'block';
+                    lightBoxVideo.setAttribute('aria-label', 'video of' + title);
+                    //lightBoxVideo.setAttribute('alt', title); does not work
                     localStorage.setItem('imgIndex', mediaIndex);
-                } else {
                 }
+                lightBox.setAttribute('aria-hidden', 'false');
+                document.getElementById('main').setAttribute('aria-hidden', 'true');
+                document.querySelectorAll('.mediaCard_Media').forEach((Element) => {
+                    Element.tabIndex = '-1';
+                });
+                lightBox.parentElement.style.display = 'block';
+                document.getElementById('lightBoxArrowRight').tabIndex = '0';
+                document.getElementById('lightBoxArrowLeft').tabIndex = '0';
+                document.getElementById('lightBoxArrowLeft').tabIndex = '0';
+                document.getElementById('lightBoxCloseBtn').tabIndex = '0';
             } else if (!lightBox.parentElement.style.display == 'block') {
                 throw 'it apear media display did not work as intented';
             }
@@ -78,7 +86,7 @@ function mediaBis(data, index, photographerName) {
         if (image) {
             const img = document.createElement('img');
             img.setAttribute('src', `./assets/photographers/Sample Photos/${ref}/${image}`);
-            img.setAttribute('alt', title);
+            img.setAttribute('alt', 'photo  ' + title);
             img.setAttribute('tabindex', '0');
             img.className = 'mediaCard_Media';
             article.appendChild(img);
@@ -90,7 +98,7 @@ function mediaBis(data, index, photographerName) {
                 'src',
                 `./assets/photographers/Sample Photos/${ref}/${video}` + '#t=0.1'
             );
-            vid.setAttribute('alt', title);
+            vid.setAttribute('aria-label', 'video, ' + title);
             vid.setAttribute('preload', 'metadata');
             vid.setAttribute('tabindex', '0');
             vid.className = 'mediaCard_Media';

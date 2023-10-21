@@ -53,7 +53,7 @@ async function displayData(photographers, mediasList) {
             const lightBox = photographerModel.lightBox();
             photographersHeader.appendChild(userCardDOM.article);
             main.appendChild(userCardDOM.insert);
-            main.appendChild(lightBox);
+            document.getElementById('lightbox-modal').appendChild(lightBox);
         }
     });
 }
@@ -90,14 +90,11 @@ init();
 /*
  * To do
  *
- * ACCESS : all element keyboard clickable
- * => select
  *
+ * aria hidden parametre pour le faut select?
  *
- * aria hidden parametre ?
  *
  * maybe give some element aria label
- *
  *
  *
  */
