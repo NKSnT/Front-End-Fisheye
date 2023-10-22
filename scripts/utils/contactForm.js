@@ -17,6 +17,7 @@ function closeModal() {
     document.getElementById('contact_modal').style.display = 'none';
 }
 document.getElementById('form').onsubmit = function (event) {
+    //return function, (display log input value)
     event.preventDefault();
     const firstNameInput = document.querySelector('#firstNameInput');
     const lastNameInput = document.querySelector('#lastNameInput');
@@ -28,6 +29,7 @@ document.getElementById('form').onsubmit = function (event) {
     console.log('returned msg : ' + messageInput.value);
 };
 document.addEventListener('keydown', (event) => {
+    //close modal on escape
     if (document.getElementById('contact_modal').style.display == 'block') {
         if (event.isComposing || event.keyCode === 27) {
             closeModal();

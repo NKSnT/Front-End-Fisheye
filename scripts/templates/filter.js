@@ -1,19 +1,21 @@
 function sortOrder() {
     const urlparams = window.location.search;
     const urlSearchParams = new URLSearchParams(urlparams);
-    const sortby = urlSearchParams.get('sortby');
+    const sortby = urlSearchParams.get('sortby'); //get the current sort params value to match the select selected option
 
+    //create the sorting DOM :
     const sortSelect_Container = document.createElement('div');
+    sortSelect_Container.id = 'SortContainer';
+
+    //create the custom select wrapper
     const customSelect = document.createElement('div');
     customSelect.classList = 'custom-select';
 
-    sortSelect_Container.id = 'SortContainer';
+    //create the selecte element
     var values = ['Date', 'Popularité', 'Titre'];
-
     var select = document.createElement('select');
     select.name = 'sortSelect';
     select.id = 'sortSelect';
-
     for (n = 0; n < values.length; n++) {
         var option = document.createElement('option');
         option.value = n;
@@ -39,7 +41,10 @@ function sortOrder() {
     sortSelect_Container.appendChild(label);
     sortSelect_Container.appendChild(customSelect);
 
-    //at this point, manage the select replacment by the custom one
+    /*
+     * at this point, manage the select replacment by the custom one
+     * =>=>=>
+     */
     var duplicatedSelectedItem, duplicatedOptionList, duplicatedOption;
     /*create a new DIV that will act as the selected item:*/
     duplicatedSelectedItem = document.createElement('div');
@@ -51,21 +56,16 @@ function sortOrder() {
     /*for each element, create a new DIV that will contain the option list:*/
     duplicatedOptionList = document.createElement('div');
     duplicatedOptionList.setAttribute('class', 'select-items select-hide');
-    for (i = 1; i < select.length; i++) {
-        /*for each option in the original select element,
+
+    /*for each option in the original select element,
     create a new DIV that will act as an option item:*/
+    for (i = 1; i < select.length; i++) {
         duplicatedOption = document.createElement('div');
-        //const duplicatedOption_text = document.createElement('span');
-
         duplicatedOption.innerHTML = select.options[i].innerHTML;
-        // duplicatedOption_text.innerHTML = select.options[i].innerHTML;
-        // duplicatedOption.appendChild(duplicatedOption_text);
-
         duplicatedOption.addEventListener('click', function (e) {
             /*when an item is clicked, update the original select box,
         and the selected item:*/
             var y, j, k, h, yl;
-
             h = this.parentNode.previousSibling;
 
             for (j = 0; j < select.length; j++) {
@@ -124,13 +124,12 @@ function sortOrder() {
     /*if the user clicks anywhere outside the select box,
 then close all select boxes:*/
     document.addEventListener('click', closeAllSelect);
-    /*reload the page with a new parameter if a sorting option is selected*/
+    /*reload the page with a new parameter if a select option is selected*/
     function reloadWithSortOrder() {
         let params = new URLSearchParams(location.search);
         params.set('sortby', select.selectedIndex);
         console.log(params);
         window.location.search = params.toString();
     }
-
     return sortSelect_Container;
 }

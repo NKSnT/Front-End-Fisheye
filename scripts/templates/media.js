@@ -1,14 +1,16 @@
-function mediaBis(data, index, photographerName) {
-    const { title, image, video, likes, date } = data;
-    const mediaIndex = index;
-    let ref = photographerName;
-    ref = ref.replaceAll('-', ' ');
+function mediaTemplate(data, index, photographerName) {
+    const { title, image, video, likes } = data; //take all media info
+    const mediaIndex = index; //*
+    let ref = photographerName; //*
+    ref = ref.replaceAll('-', ' '); //help to match files's name with photographerName
     const lightBox = document.getElementById('lightBox');
 
-    function createMediaBis() {
+    function createMediaCard() {
+        //create media card
         const lightBoxImage = document.getElementById('lightBoxImage');
         const lightBoxVideo = document.getElementById('lightBoxVideo');
-        // creat DOM element for the card media
+
+        // create DOM element for the card media:
         const article = document.createElement('article');
         article.className = 'mediaCard';
         const fileInfoContainer = document.createElement('div');
@@ -26,46 +28,8 @@ function mediaBis(data, index, photographerName) {
         likeIcone.className = 'mediacard_ico';
         likesContainer.appendChild(likesNumber);
         likesContainer.appendChild(likeIcone);
-        // display the lightbox on card's img and title click if isn't already on display,
-        // otherwise, do nothing
-        function displayLightBox() {
-            if (lightBox.parentElement.style.display == 'none') {
-                if (article.firstChild.tagName == 'IMG') {
-                    lightBoxVideo.style.display = 'none';
-                    lightBoxImage.style.display = 'block';
-                    lightBoxImage.setAttribute(
-                        'src',
-                        `./assets/photographers/Sample Photos/${ref}/${image}`
-                    );
-                    lightBoxImage.setAttribute('alt', title);
-                    localStorage.setItem('imgIndex', mediaIndex);
-                } else if (article.firstChild.tagName == 'VIDEO') {
-                    lightBoxImage.style.display = 'none';
-                    lightBoxVideo.style.display = 'block';
-                    lightBoxVideo.setAttribute(
-                        'src',
-                        `./assets/photographers/Sample Photos/${ref}/${video}`
-                    );
-                    lightBoxVideo.setAttribute('controls', '');
-                    lightBoxVideo.setAttribute('aria-label', 'video of' + title);
-                    //lightBoxVideo.setAttribute('alt', title); does not work
-                    localStorage.setItem('imgIndex', mediaIndex);
-                }
-                lightBox.setAttribute('aria-hidden', 'false');
-                document.getElementById('main').setAttribute('aria-hidden', 'true');
-                document.querySelectorAll('.mediaCard_Media').forEach((Element) => {
-                    Element.tabIndex = '-1';
-                });
-                lightBox.parentElement.style.display = 'block';
-                document.getElementById('lightBoxArrowRight').tabIndex = '0';
-                document.getElementById('lightBoxArrowLeft').tabIndex = '0';
-                document.getElementById('lightBoxArrowLeft').tabIndex = '0';
-                document.getElementById('lightBoxCloseBtn').tabIndex = '0';
-            } else if (!lightBox.parentElement.style.display == 'block') {
-                throw 'it apear media display did not work as intented';
-            }
-        }
         var myHandler = (function () {
+            // like event management f()
             var click = 0;
             return function () {
                 if (click === 0) {
@@ -79,8 +43,8 @@ function mediaBis(data, index, photographerName) {
                 click++;
             };
         })();
-
         likeIcone.addEventListener('click', myHandler, false);
+        //:onfocus:onpress enter key event
         likeIcone.addEventListener(
             'keydown',
             (event) => {
@@ -90,10 +54,9 @@ function mediaBis(data, index, photographerName) {
             },
             false
         );
-
         fileInfoContainer.appendChild(h3);
         fileInfoContainer.appendChild(likesContainer);
-
+        //create the media's relatives elements: IMG / VID
         if (image) {
             const img = document.createElement('img');
             img.setAttribute('src', `./assets/photographers/Sample Photos/${ref}/${image}`);
@@ -103,6 +66,7 @@ function mediaBis(data, index, photographerName) {
             article.appendChild(img);
             article.appendChild(fileInfoContainer);
             img.addEventListener('click', displayLightBox);
+            //:onfocus:onpress enter key event
             img.addEventListener('keydown', (event) => {
                 if (event.isComposing || event.keyCode === 13) {
                     displayLightBox();
@@ -121,6 +85,7 @@ function mediaBis(data, index, photographerName) {
             article.appendChild(vid);
             article.appendChild(fileInfoContainer);
             vid.addEventListener('click', displayLightBox);
+            //:onfocus:onpress enter key event
             vid.addEventListener('keydown', (event) => {
                 if (event.isComposing || event.keyCode === 13) {
                     displayLightBox();
@@ -129,8 +94,46 @@ function mediaBis(data, index, photographerName) {
         } else {
             throw 'unsuported media format';
         }
+        function displayLightBox() {
+            // display the lightbox on card's media and title click if isn't already on display,
+            // otherwise, do nothing
+            if (lightBox.parentElement.style.display == 'none') {
+                if (article.firstChild.tagName == 'IMG') {
+                    lightBoxVideo.style.display = 'none';
+                    lightBoxImage.style.display = 'block';
+                    lightBoxImage.setAttribute(
+                        'src',
+                        `./assets/photographers/Sample Photos/${ref}/${image}`
+                    );
+                    lightBoxImage.setAttribute('alt', title);
+                    localStorage.setItem('imgIndex', mediaIndex);
+                } else if (article.firstChild.tagName == 'VIDEO') {
+                    lightBoxImage.style.display = 'none';
+                    lightBoxVideo.style.display = 'block';
+                    lightBoxVideo.setAttribute(
+                        'src',
+                        `./assets/photographers/Sample Photos/${ref}/${video}`
+                    );
+                    lightBoxVideo.setAttribute('controls', '');
+                    lightBoxVideo.setAttribute('aria-label', 'video of' + title); //give video a pseudo ALT description
+                    localStorage.setItem('imgIndex', mediaIndex);
+                }
+                lightBox.setAttribute('aria-hidden', 'false');
+                document.getElementById('main').setAttribute('aria-hidden', 'true');
+                document.querySelectorAll('.mediaCard_Media').forEach((Element) => {
+                    Element.tabIndex = '-1';
+                });
+                lightBox.parentElement.style.display = 'block';
+                document.getElementById('lightBoxArrowRight').tabIndex = '0';
+                document.getElementById('lightBoxArrowLeft').tabIndex = '0';
+                document.getElementById('lightBoxArrowLeft').tabIndex = '0';
+                document.getElementById('lightBoxCloseBtn').tabIndex = '0';
+            } else if (!lightBox.parentElement.style.display == 'block') {
+                throw 'it apear media display did not work as intented';
+            }
+        }
         return article;
     }
 
-    return { createMediaBis };
+    return { createMediaCard };
 }

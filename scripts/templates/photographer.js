@@ -3,9 +3,9 @@ function photographerTemplate(data, mediasList) {
 
     const fList = mediasList;
     let ref = name.split(' ')[0]; //split the name to find the corect folder
-    ref = ref.replaceAll('-', ' ');
-    const totalLikeNumber = localStorage.getItem('totalLikeNumber');
-
+    ref = ref.replaceAll('-', ' '); //match with folder nametag if needed
+    const totalLikeNumber = localStorage.getItem('totalLikeNumber'); //get the total like number for the insert
+    /*create all photographers cards in main index page*/
     function getUserCardDOM() {
         const detail = document.createElement('a');
         detail.setAttribute('href', `./photographer.html?id=${id}&sortby=${0}`);
@@ -39,7 +39,7 @@ function photographerTemplate(data, mediasList) {
         article.appendChild(day_rate);
         return article;
     }
-
+    /*create single photographer cards in photographer page*/
     function getPhotographerCardDom() {
         const btn = document.querySelector('.contact_button');
         const article = document.createElement('article');
@@ -84,7 +84,7 @@ function photographerTemplate(data, mediasList) {
         article.appendChild(imgContainer);
         return { article, insert };
     }
-
+    /*create the lightboxe with display none by default*/
     function lightBox() {
         const wrapper = document.createElement('div');
         wrapper.setAttribute('id', 'lightBox-wrapper');
@@ -106,9 +106,9 @@ function photographerTemplate(data, mediasList) {
         closeBtn.setAttribute('src', './assets/icons/close_brown.svg');
         closeBtn.setAttribute('id', 'lightBoxCloseBtn');
         closeBtn.setAttribute('aria-label', 'Close dialog');
-        // closeBtn.setAttribute('tabindex', '0');
-        closeBtn.addEventListener('click', closeLightBoxEvent);
+        closeBtn.addEventListener('click', closeLightBoxEvent); //close event
         closeBtn.addEventListener('keydown', (event) => {
+            //*
             if (event.isComposing || event.keyCode === 13) {
                 closeLightBoxEvent();
             }
@@ -117,35 +117,24 @@ function photographerTemplate(data, mediasList) {
         arrowLeft.setAttribute('src', './assets/icons/arrow_left.svg');
         arrowLeft.setAttribute('id', 'lightBoxArrowLeft');
         arrowLeft.setAttribute('aria-label', 'Previous image');
-        // arrowLeft.setAttribute('tabindex', '0');
-        arrowLeft.addEventListener('click', arrowleftEvent);
+        arrowLeft.addEventListener('click', arrowleftEvent); //previous img event
         arrowLeft.addEventListener('keydown', (event) => {
+            //*
             if (event.isComposing || event.keyCode === 13) {
                 arrowleftEvent();
-            }
-        });
-        document.addEventListener('keydown', (event) => {
-            if (wrapper.style.display == 'block') {
-                if (event.isComposing || event.keyCode === 37) {
-                    arrowleftEvent();
-                } else if (event.isComposing || event.keyCode === 39) {
-                    arrowRightEvent();
-                } else if (event.isComposing || event.keyCode === 27) {
-                    closeLightBoxEvent();
-                }
             }
         });
         const arrowRight = document.createElement('img');
         arrowRight.setAttribute('src', './assets/icons/arrow_right.svg');
         arrowRight.setAttribute('id', 'lightBoxArrowRight');
         arrowRight.setAttribute('aria-label', 'Next image');
-        arrowRight.addEventListener('click', arrowRightEvent);
+        arrowRight.addEventListener('click', arrowRightEvent); //previous img event
         arrowRight.addEventListener('keydown', (event) => {
+            //*
             if (event.isComposing || event.keyCode === 13) {
                 arrowRightEvent();
             }
         });
-
         mediaContainer.appendChild(lightBoxImage);
         mediaContainer.appendChild(lightBoxVideo);
         lightBox.appendChild(mediaContainer);
@@ -154,14 +143,17 @@ function photographerTemplate(data, mediasList) {
         lightBox.appendChild(arrowRight);
         wrapper.appendChild(lightBox);
         function arrowleftEvent() {
-            var findex = localStorage.getItem('imgIndex');
+            var findex = localStorage.getItem('imgIndex'); //get open lightbox image index
             var nextMedia;
             var newfindex;
+            //set the next index depend on curent index
             if (findex > 0 && findex <= fList.length - 1) {
+                //if index is 0 then go to last
                 newfindex = findex - 1;
             } else if (findex == 0 && fList.length > 1) {
                 newfindex = fList.length - 1;
             }
+            //display the next media depend on his property
             if (fList[newfindex].hasOwnProperty('image')) {
                 lightBoxVideo.style.display = 'none';
                 nextMedia = fList[newfindex].image;
@@ -215,9 +207,21 @@ function photographerTemplate(data, mediasList) {
             }
             localStorage.setItem('imgIndex', newfindex);
         }
+        /*for lightbox key navigate event*/
+        document.addEventListener('keydown', (event) => {
+            if (wrapper.style.display == 'block') {
+                //if lightbox is "on"
+                if (event.isComposing || event.keyCode === 37) {
+                    arrowleftEvent();
+                } else if (event.isComposing || event.keyCode === 39) {
+                    arrowRightEvent();
+                } else if (event.isComposing || event.keyCode === 27) {
+                    closeLightBoxEvent();
+                }
+            }
+        });
         function closeLightBoxEvent() {
             wrapper.style.display = 'none';
-            //lightBox.setAttribute('aria-hidden', 'true');
             document.getElementById('main').setAttribute('aria-hidden', 'false');
             document.querySelectorAll('.mediaCard_Media').forEach((Element) => {
                 Element.tabIndex = '0';
