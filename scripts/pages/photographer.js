@@ -1,14 +1,16 @@
 const urlparams = window.location.search;
 const urlSearchParams = new URLSearchParams(urlparams);
 const photographerId = urlSearchParams.get('id');
-const sortby = urlSearchParams.get('sortby');
+const sortby = urlSearchParams.get('sortby'); //get param for the sorting
 
 async function getPhotographers() {
+    //get Photographers data
     return await fetch('./data/photographers.json')
         .then((res) => res.json())
         .catch((err) => console.log('Unexpected error occured', err));
 }
 function getPhotographersMedias(medias) {
+    // get all media, then select and arrange them if they are from the targeted Photographer
     let mediaList = new Array();
     let totalLikeNumber = 0;
     medias.forEach((media) => {
@@ -40,35 +42,35 @@ function getPhotographersMedias(medias) {
     localStorage.setItem('totalLikeNumber', totalLikeNumber);
     return mediaList;
 }
-
 async function displayData(photographers, mediasList) {
+    //main f()
     const photographersHeader = document.querySelector('.photograph-header');
     const main = document.getElementById('main');
     photographers.forEach((photographer) => {
         if (photographer.id == photographerId) {
-            let ref = photographer.name.split(' ')[0]; //split the name to find the corect folder
-
-            const photographerModel = photographerTemplate(photographer, mediasList);
+            const photographerModel = photographerTemplate(photographer, mediasList); //call photographerTemplate
             const userCardDOM = photographerModel.getPhotographerCardDom();
             const lightBox = photographerModel.lightBox();
-            photographersHeader.appendChild(userCardDOM.article);
-            main.appendChild(userCardDOM.insert);
+            photographersHeader.appendChild(userCardDOM.article); //then display content
+            main.appendChild(userCardDOM.insert); //*
             document.getElementById('lightbox-modal').appendChild(lightBox);
         }
     });
 }
 async function displayMedia(mediaList, photographers) {
+    //media display f()
     const main = document.getElementById('main');
     const section = document.createElement('section');
     section.id = 'mediaSection';
     photographers.forEach((photographer) => {
         if (photographer.id == photographerId) {
             const photographerName = photographer.name.split(' ')[0];
-            const sortOrderDom = sortOrder();
-            main.appendChild(sortOrderDom);
-            main.appendChild(section);
+            const sortOrderDom = sortOrder(); //call the sorting element f()
+            main.appendChild(sortOrderDom); //main balise take child in order
+            main.appendChild(section); //*
 
             mediaList.forEach((media, index) => {
+                // call the media card creation f() for each given media
                 const mediaModel = mediaBis(media, index, photographerName);
                 const mediaCardDOM = mediaModel.createMediaBis();
                 section.appendChild(mediaCardDOM);
@@ -78,7 +80,7 @@ async function displayMedia(mediaList, photographers) {
 }
 
 async function init() {
-    // Récupère les datas des photographes
+    // start the page load
     const { photographers } = await getPhotographers();
     const { media } = await getPhotographers();
     const mediasList = getPhotographersMedias(media);
@@ -86,20 +88,3 @@ async function init() {
     displayMedia(mediasList, photographers);
 }
 init();
-
-/*
- * To do
- enter marche sur les carte 
-
-event enter pour la selection des carte et des icone
-jeudhi 26 17h30
- *
-Interface : Si l’étudiant veut commencer à coder, il peut commencer à réaliser l’interface de la page web.
-Dans un deuxième temps, ou en parallèle, il pourra travailler sur la logique de recherche et le document d’investigation de fonctionnalité.
-Ensuite il pourra commencer par implémenter la première version de son algorithme de recherche. Il sera plus naturel de commencer par implémenter la recherche simple, puis la recherche par tags. 
-L’étudiant répètera la procédure pour la deuxième implémentation.
-Comparaison des résultats des algorithmes via un outil de benchmark comme jsben.ch, jsbench.me, jsperf.com.
-
-
-
- */

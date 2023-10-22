@@ -22,6 +22,7 @@ function mediaBis(data, index, photographerName) {
         const likeIcone = document.createElement('img');
         likeIcone.setAttribute('src', './assets/icons/favorite_brown.svg');
         likeIcone.setAttribute('alt', 'like');
+        likeIcone.setAttribute('tabindex', '0');
         likeIcone.className = 'mediacard_ico';
         likesContainer.appendChild(likesNumber);
         likesContainer.appendChild(likeIcone);
@@ -80,6 +81,16 @@ function mediaBis(data, index, photographerName) {
         })();
 
         likeIcone.addEventListener('click', myHandler, false);
+        likeIcone.addEventListener(
+            'keydown',
+            (event) => {
+                if (event.isComposing || event.keyCode === 13) {
+                    myHandler();
+                }
+            },
+            false
+        );
+
         fileInfoContainer.appendChild(h3);
         fileInfoContainer.appendChild(likesContainer);
 
