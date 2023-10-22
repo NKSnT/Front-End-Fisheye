@@ -259,7 +259,6 @@ form input {
 }
 
 .custom-select select:not(:focus):not(:active) {
-    /* display: none; hide original SELECT element, not good with acces */
     clip: rect(0 0 0 0);
     clip-path: inset(50%);
     height: 1px;
@@ -268,7 +267,16 @@ form input {
     white-space: nowrap;
     width: 1px;
 }
-
+.custom-select select {
+    background-color: #901c1c;
+    height: 100% !important;
+    width: 100%;
+    color: white;
+    text-align-last: center;
+    font-size: 18px;
+    font-weight: 700;
+}
+/*style the select replacer*/
 .select-selected {
     background-color: #901c1c;
     height: 100% !important;
@@ -278,8 +286,7 @@ form input {
     justify-content: center;
     align-items: center;
 }
-
-/*style the arrow inside the select element:*/
+/*style the arrow inside the select replacer element:*/
 .select-selected:after {
     position: absolute;
     content: '';

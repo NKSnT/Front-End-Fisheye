@@ -108,12 +108,22 @@ function photographerTemplate(data, mediasList) {
         closeBtn.setAttribute('aria-label', 'Close dialog');
         // closeBtn.setAttribute('tabindex', '0');
         closeBtn.addEventListener('click', closeLightBoxEvent);
+        closeBtn.addEventListener('keydown', (event) => {
+            if (event.isComposing || event.keyCode === 13) {
+                closeLightBoxEvent();
+            }
+        });
         const arrowLeft = document.createElement('img');
         arrowLeft.setAttribute('src', './assets/icons/arrow_left.svg');
         arrowLeft.setAttribute('id', 'lightBoxArrowLeft');
         arrowLeft.setAttribute('aria-label', 'Previous image');
         // arrowLeft.setAttribute('tabindex', '0');
         arrowLeft.addEventListener('click', arrowleftEvent);
+        arrowLeft.addEventListener('keydown', (event) => {
+            if (event.isComposing || event.keyCode === 13) {
+                arrowleftEvent();
+            }
+        });
         document.addEventListener('keydown', (event) => {
             if (wrapper.style.display == 'block') {
                 if (event.isComposing || event.keyCode === 37) {
@@ -125,13 +135,16 @@ function photographerTemplate(data, mediasList) {
                 }
             }
         });
-
         const arrowRight = document.createElement('img');
         arrowRight.setAttribute('src', './assets/icons/arrow_right.svg');
         arrowRight.setAttribute('id', 'lightBoxArrowRight');
         arrowRight.setAttribute('aria-label', 'Next image');
-        //arrowRight.setAttribute('tabindex', '0');
         arrowRight.addEventListener('click', arrowRightEvent);
+        arrowRight.addEventListener('keydown', (event) => {
+            if (event.isComposing || event.keyCode === 13) {
+                arrowRightEvent();
+            }
+        });
 
         mediaContainer.appendChild(lightBoxImage);
         mediaContainer.appendChild(lightBoxVideo);

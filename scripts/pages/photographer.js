@@ -89,12 +89,17 @@ init();
 
 /*
  * To do
+ enter marche sur les carte 
+
+event enter pour la selection des carte et des icone
+jeudhi 26 17h30
  *
- *
- * aria hidden parametre pour le faut select?
- *
- *
- * maybe give some element aria label
- *
- *
+Interface : Si l’étudiant veut commencer à coder, il peut commencer à réaliser l’interface de la page web.
+Dans un deuxième temps, ou en parallèle, il pourra travailler sur la logique de recherche et le document d’investigation de fonctionnalité.
+Ensuite il pourra commencer par implémenter la première version de son algorithme de recherche. Il sera plus naturel de commencer par implémenter la recherche simple, puis la recherche par tags. 
+L’étudiant répètera la procédure pour la deuxième implémentation.
+Comparaison des résultats des algorithmes via un outil de benchmark comme jsben.ch, jsbench.me, jsperf.com.
+
+
+
  */

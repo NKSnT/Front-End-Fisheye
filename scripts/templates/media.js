@@ -92,6 +92,11 @@ function mediaBis(data, index, photographerName) {
             article.appendChild(img);
             article.appendChild(fileInfoContainer);
             img.addEventListener('click', displayLightBox);
+            img.addEventListener('keydown', (event) => {
+                if (event.isComposing || event.keyCode === 13) {
+                    displayLightBox();
+                }
+            });
         } else if (video) {
             const vid = document.createElement('video');
             vid.setAttribute(
@@ -105,6 +110,11 @@ function mediaBis(data, index, photographerName) {
             article.appendChild(vid);
             article.appendChild(fileInfoContainer);
             vid.addEventListener('click', displayLightBox);
+            vid.addEventListener('keydown', (event) => {
+                if (event.isComposing || event.keyCode === 13) {
+                    displayLightBox();
+                }
+            });
         } else {
             throw 'unsuported media format';
         }
