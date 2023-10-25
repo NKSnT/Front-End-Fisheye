@@ -26,14 +26,14 @@ function getPhotographersMedias(medias) {
             return b.likes - a.likes;
         }
         mediaList.sort(sortByPopularity);
-    } else if (sortby == '2') {
+    } else if (sortby == '0') {
         function sortByDate(a, b) {
             var date1 = new Date(a.data);
             var date2 = new Date(b.date);
             return date2 - date1;
         }
         mediaList.sort(sortByDate);
-    } else if (sortby == '3') {
+    } else if (sortby == '2') {
         function sortByTitle(a, b) {
             return a.title.localeCompare(b.title);
         }

@@ -59,7 +59,7 @@ function sortOrder() {
 
     /*for each option in the original select element,
     create a new DIV that will act as an option item:*/
-    for (i = 1; i < select.length; i++) {
+    for (i = 0; i < select.length; i++) {
         duplicatedOption = document.createElement('div');
         duplicatedOption.innerHTML = select.options[i].innerHTML;
         duplicatedOption.addEventListener('click', function (e) {

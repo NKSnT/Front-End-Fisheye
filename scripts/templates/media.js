@@ -128,6 +128,7 @@ function mediaTemplate(data, index, photographerName) {
                 document.getElementById('lightBoxArrowLeft').tabIndex = '0';
                 document.getElementById('lightBoxArrowLeft').tabIndex = '0';
                 document.getElementById('lightBoxCloseBtn').tabIndex = '0';
+                document.getElementById('lightBoxCloseBtn').focus();
             } else if (!lightBox.parentElement.style.display == 'block') {
                 throw 'it apear media display did not work as intented';
             }
