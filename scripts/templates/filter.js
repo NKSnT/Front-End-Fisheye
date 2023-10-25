@@ -128,7 +128,6 @@ then close all select boxes:*/
     function reloadWithSortOrder() {
         let params = new URLSearchParams(location.search);
         params.set('sortby', select.selectedIndex);
-        console.log(params);
         window.location.search = params.toString();
     }
     return sortSelect_Container;

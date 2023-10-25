@@ -1,15 +1,12 @@
+let mediaIndex = undefined;
 function mediaTemplate(data, index, photographerName) {
     const { title, image, video, likes } = data; //take all media info
-    const mediaIndex = index; //*
+    //let mediaIndex = index; //*
     let ref = photographerName; //*
     ref = ref.replaceAll('-', ' '); //help to match files's name with photographerName
     const lightBox = document.getElementById('lightBox');
 
     function createMediaCard() {
-        //create media card
-        const lightBoxImage = document.getElementById('lightBoxImage');
-        const lightBoxVideo = document.getElementById('lightBoxVideo');
-
         // create DOM element for the card media:
         const article = document.createElement('article');
         article.className = 'mediaCard';
@@ -56,79 +53,42 @@ function mediaTemplate(data, index, photographerName) {
         );
         fileInfoContainer.appendChild(h3);
         fileInfoContainer.appendChild(likesContainer);
-        //create the media's relatives elements: IMG / VID
-        if (image) {
-            const img = document.createElement('img');
-            img.setAttribute('src', `./assets/photographers/Sample Photos/${ref}/${image}`);
-            img.setAttribute('alt', 'photo  ' + title);
-            img.setAttribute('tabindex', '0');
-            img.className = 'mediaCard_Media';
-            article.appendChild(img);
-            article.appendChild(fileInfoContainer);
-            img.addEventListener('click', displayLightBox);
-            //:onfocus:onpress enter key event
-            img.addEventListener('keydown', (event) => {
-                if (event.isComposing || event.keyCode === 13) {
-                    displayLightBox();
-                }
-            });
-        } else if (video) {
-            const vid = document.createElement('video');
-            vid.setAttribute(
-                'src',
-                `./assets/photographers/Sample Photos/${ref}/${video}` + '#t=0.1'
-            );
-            vid.setAttribute('aria-label', 'video, ' + title);
-            vid.setAttribute('preload', 'metadata');
-            vid.setAttribute('tabindex', '0');
-            vid.className = 'mediaCard_Media';
-            article.appendChild(vid);
-            article.appendChild(fileInfoContainer);
-            vid.addEventListener('click', displayLightBox);
-            //:onfocus:onpress enter key event
-            vid.addEventListener('keydown', (event) => {
-                if (event.isComposing || event.keyCode === 13) {
-                    displayLightBox();
-                }
-            });
-        } else {
-            throw 'unsuported media format';
-        }
+        let mediaElement = mediaFactory(data, ref);
+        mediaElement.setAttribute('tabindex', '0');
+        mediaElement.className = 'mediaCard_Media';
+        mediaElement.addEventListener('click', displayLightBox);
+        mediaElement.addEventListener('keydown', (event) => {
+            if (event.isComposing || event.keyCode === 13) {
+                displayLightBox();
+            }
+        });
+        article.appendChild(mediaElement);
+        article.appendChild(fileInfoContainer);
+
         function displayLightBox() {
             // display the lightbox on card's media and title click if isn't already on display,
             // otherwise, do nothing
             if (lightBox.parentElement.style.display == 'none') {
-                if (article.firstChild.tagName == 'IMG') {
-                    lightBoxVideo.style.display = 'none';
-                    lightBoxImage.style.display = 'block';
-                    lightBoxImage.setAttribute(
-                        'src',
-                        `./assets/photographers/Sample Photos/${ref}/${image}`
-                    );
-                    lightBoxImage.setAttribute('alt', title);
-                    localStorage.setItem('imgIndex', mediaIndex);
-                } else if (article.firstChild.tagName == 'VIDEO') {
-                    lightBoxImage.style.display = 'none';
-                    lightBoxVideo.style.display = 'block';
-                    lightBoxVideo.setAttribute(
-                        'src',
-                        `./assets/photographers/Sample Photos/${ref}/${video}`
-                    );
-                    lightBoxVideo.setAttribute('controls', '');
-                    lightBoxVideo.setAttribute('aria-label', 'video of' + title); //give video a pseudo ALT description
-                    localStorage.setItem('imgIndex', mediaIndex);
+                let lightboxMediaElement = mediaFactory(data, ref);
+                lightboxMediaElement.setAttribute('class', 'lightBoxFocus');
+                const anchore = document.getElementById('lightBox_media-container');
+                if (anchore.hasChildNodes()) {
+                    //delete child if already have one, can be set up on close modal too
+                    anchore.removeChild(anchore.firstChild);
                 }
+                anchore.appendChild(lightboxMediaElement);
+                mediaIndex = index;
                 lightBox.setAttribute('aria-hidden', 'false');
                 document.getElementById('main').setAttribute('aria-hidden', 'true');
                 document.querySelectorAll('.mediaCard_Media').forEach((Element) => {
                     Element.tabIndex = '-1';
                 });
                 lightBox.parentElement.style.display = 'block';
-                document.getElementById('lightBoxArrowRight').tabIndex = '0';
-                document.getElementById('lightBoxArrowLeft').tabIndex = '0';
-                document.getElementById('lightBoxArrowLeft').tabIndex = '0';
+
                 document.getElementById('lightBoxCloseBtn').tabIndex = '0';
                 document.getElementById('lightBoxCloseBtn').focus();
+                document.getElementById('lightBoxArrowRight').tabIndex = '0';
+                document.getElementById('lightBoxArrowLeft').tabIndex = '0';
             } else if (!lightBox.parentElement.style.display == 'block') {
                 throw 'it apear media display did not work as intented';
             }

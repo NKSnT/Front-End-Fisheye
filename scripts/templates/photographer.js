@@ -41,6 +41,9 @@ function photographerTemplate(data, mediasList) {
     }
     /*create single photographer cards in photographer page*/
     function getPhotographerCardDom() {
+        var br = document.createElement('br');
+        const contact_modalTitle = document.getElementById('contact_modalLabel');
+        contact_modalTitle.innerHTML = 'Contactez-moi <br/>' + name;
         const btn = document.querySelector('.contact_button');
         const article = document.createElement('article');
         article.setAttribute('aria-label', "photographer's informations");
@@ -95,13 +98,6 @@ function photographerTemplate(data, mediasList) {
         lightBox.className = 'lightBox';
         const mediaContainer = document.createElement('div');
         mediaContainer.setAttribute('id', 'lightBox_media-container');
-        const lightBoxImage = document.createElement('img');
-        lightBoxImage.setAttribute('class', 'lightBoxFocus');
-        lightBoxImage.setAttribute('id', 'lightBoxImage');
-        const lightBoxVideo = document.createElement('video');
-        lightBoxVideo.setAttribute('class', 'lightBoxFocus');
-        lightBoxVideo.setAttribute('id', 'lightBoxVideo');
-
         const closeBtn = document.createElement('img');
         closeBtn.setAttribute('src', './assets/icons/close_brown.svg');
         closeBtn.setAttribute('id', 'lightBoxCloseBtn');
@@ -135,16 +131,14 @@ function photographerTemplate(data, mediasList) {
                 arrowRightEvent();
             }
         });
-        mediaContainer.appendChild(lightBoxImage);
-        mediaContainer.appendChild(lightBoxVideo);
         lightBox.appendChild(mediaContainer);
         lightBox.appendChild(closeBtn);
         lightBox.appendChild(arrowLeft);
         lightBox.appendChild(arrowRight);
         wrapper.appendChild(lightBox);
+
         function arrowleftEvent() {
-            var findex = localStorage.getItem('imgIndex'); //get open lightbox image index
-            var nextMedia;
+            var findex = mediaIndex;
             var newfindex;
             //set the next index depend on curent index
             if (findex > 0 && findex <= fList.length - 1) {
@@ -153,59 +147,36 @@ function photographerTemplate(data, mediasList) {
             } else if (findex == 0 && fList.length > 1) {
                 newfindex = fList.length - 1;
             }
-            //display the next media depend on his property
-            if (fList[newfindex].hasOwnProperty('image')) {
-                lightBoxVideo.style.display = 'none';
-                nextMedia = fList[newfindex].image;
-                lightBoxImage.setAttribute(
-                    'src',
-                    `./assets/photographers/Sample Photos/${ref}/${nextMedia}`
-                );
-                lightBoxImage.setAttribute('alt', `${fList[newfindex].title}`);
-                lightBoxImage.style.display = 'block';
-            } else if (fList[newfindex].hasOwnProperty('video')) {
-                lightBoxImage.style.display = 'none';
-                nextMedia = fList[newfindex].video;
-                lightBoxVideo.setAttribute(
-                    'src',
-                    `./assets/photographers/Sample Photos/${ref}/${nextMedia}#t=0.1`
-                );
-                lightBoxVideo.setAttribute('alt', `${fList[newfindex].title}`);
-                lightBoxVideo.style.display = 'block';
+            let newMediaElement = mediaFactory(fList[newfindex], ref);
+            newMediaElement.setAttribute('class', 'lightBoxFocus');
+            const anchore = document.getElementById('lightBox_media-container');
+            if (anchore.hasChildNodes()) {
+                //delete child if already have one, can be set up on close modal too
+                anchore.removeChild(anchore.firstChild);
             }
-            localStorage.setItem('imgIndex', newfindex);
+            anchore.appendChild(newMediaElement);
+            mediaIndex = newfindex;
         }
         function arrowRightEvent() {
-            var findex = localStorage.getItem('imgIndex');
-            var nextMedia;
+            var findex = mediaIndex;
+
             var newfindex;
             if (findex >= 0 && findex <= fList.length - 2) {
                 newfindex = ++findex;
             } else if (findex == fList.length - 1 && fList.length > 1) {
                 newfindex = 0;
             }
-            if (fList[newfindex].hasOwnProperty('image')) {
-                lightBoxVideo.style.display = 'none';
-                nextMedia = fList[newfindex].image;
-                lightBoxImage.setAttribute(
-                    'src',
-                    `./assets/photographers/Sample Photos/${ref}/${nextMedia}`
-                );
-                lightBoxImage.setAttribute('alt', `${fList[newfindex].title}`);
-                lightBoxImage.style.display = 'block';
-            } else if (fList[newfindex].hasOwnProperty('video')) {
-                lightBoxImage.style.display = 'none';
-                nextMedia = fList[newfindex].video;
-                lightBoxVideo.setAttribute(
-                    'src',
-                    //`./assets/photographers/Sample Photos/${ref}/${nextMedia}#t=0.1`
-                    `./assets/photographers/Sample Photos/${ref}/${nextMedia}`
-                );
-                lightBoxVideo.setAttribute('controls', '');
-                lightBoxVideo.setAttribute('alt', `${fList[newfindex].title}`);
-                lightBoxVideo.style.display = 'block';
+
+            let newMediaElement = mediaFactory(fList[newfindex], ref);
+            newMediaElement.setAttribute('class', 'lightBoxFocus');
+            const anchore = document.getElementById('lightBox_media-container');
+            if (anchore.hasChildNodes()) {
+                //delete child if already have one, can be set up on close modal too
+                anchore.removeChild(anchore.firstChild);
             }
-            localStorage.setItem('imgIndex', newfindex);
+            anchore.appendChild(newMediaElement);
+
+            mediaIndex = newfindex;
         }
         /*for lightbox key navigate event*/
         document.addEventListener('keydown', (event) => {
@@ -226,6 +197,11 @@ function photographerTemplate(data, mediasList) {
             document.querySelectorAll('.mediaCard_Media').forEach((Element) => {
                 Element.tabIndex = '0';
             });
+            const anchore = document.getElementById('lightBox_media-container');
+            if (anchore.hasChildNodes()) {
+                //delete modal child
+                anchore.removeChild(anchore.firstChild);
+            }
         }
         return wrapper;
     }

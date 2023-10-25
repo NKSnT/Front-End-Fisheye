@@ -71,6 +71,7 @@ async function displayMedia(mediaList, photographers) {
 
             mediaList.forEach((media, index) => {
                 // call the media card creation f() for each given media
+                //const mediaModel = mediaTemplate(media, index, photographerName);
                 const mediaModel = mediaTemplate(media, index, photographerName);
                 const mediaCardDOM = mediaModel.createMediaCard();
                 section.appendChild(mediaCardDOM);
